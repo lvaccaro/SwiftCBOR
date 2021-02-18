@@ -329,8 +329,13 @@ extension CBOR {
 
         try sortedKeysWithEncodedKeys.forEach { keyTuple in
             res.append(contentsOf: keyTuple.encoded)
-            let encodedVal = try encodeAny(map[keyTuple.key]!)
-            res.append(contentsOf: encodedVal)
+            if let key = keyTuple.key as? String, let dict = map as? [String: Any], let path = dict["path"] as? [UInt32], key == "path" {
+                let encodedVal = encodeArray(path)
+                res.append(contentsOf: encodedVal)
+            } else {
+                let encodedVal = try encodeAny(map[keyTuple.key]!)
+                res.append(contentsOf: encodedVal)
+            }
         }
     }
 }
