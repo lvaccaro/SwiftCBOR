@@ -316,7 +316,7 @@ extension CBOR {
         case nil:
             return CBOR.encodeNull()
         default:
-            throw CBOREncoderError.invalidType
+            return CBOR.encodeNull()
         }
     }
 
